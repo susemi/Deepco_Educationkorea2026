@@ -9,8 +9,13 @@
         :root {
             --primary-color: #1a73e8;
             --primary-hover: #1557b0;
+            --youtube-bg: #ffabab; 
+            --youtube-text: #c5221f;
+            --youtube-hover: #ff9999;
             --error-color: #d93025;
             --success-color: #188038;
+            --info-color: #5f6368;
+            --info-bg: #f8f9fa;
             --bg-color: #f1f3f4;
             --text-color: #202124;
             --sub-text-color: #5f6368;
@@ -66,7 +71,6 @@
             color: var(--text-color);
         }
 
-        /* iOS 입력창 확대 방지 및 터치 영역 확보 */
         input[type="text"],
         input[type="email"],
         input[type="tel"] {
@@ -86,58 +90,67 @@
             box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
         }
 
-        /* 오류 발생 시 입력창 스타일 */
         input.input-error {
             border-color: var(--error-color);
             background-color: #fce8e6;
         }
 
-        /* 개인정보 동의 섹션 */
-        .privacy-group {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+        /* 약관 동의 그룹 스타일 */
+        .agreement-section {
             margin: 20px 0;
-            border: 1px solid #eee;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
         }
 
-        .checkbox-wrapper {
+        .checkbox-row {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.1s;
         }
 
-        .checkbox-wrapper input[type="checkbox"] {
+        .checkbox-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .checkbox-row input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            margin-right: 10px;
-            margin-top: 2px;
+            margin-right: 12px;
             cursor: pointer;
             flex-shrink: 0;
         }
 
-        .checkbox-wrapper label {
-            margin-bottom: 0;
-            font-weight: 700;
-            cursor: pointer;
-            line-height: 1.4;
+        .checkbox-row span {
             font-size: 15px;
-        }
-
-        .privacy-desc {
-            margin-top: 8px;
-            margin-left: 30px;
-            font-size: 12px;
-            color: var(--sub-text-color);
-            line-height: 1.5;
-            word-break: keep-all;
+            line-height: 1.4;
+            flex-grow: 1;
         }
 
         .required-mark {
             color: var(--error-color);
+            font-weight: 700;
+            margin-right: 4px;
+        }
+        
+        .optional-mark {
+            color: var(--sub-text-color);
+            font-weight: 700;
             margin-right: 4px;
         }
 
-        /* 버튼 스타일 */
+        .view-btn {
+            font-size: 12px;
+            color: var(--sub-text-color);
+            text-decoration: underline;
+            margin-left: 8px;
+            white-space: nowrap;
+        }
+
+        /* 공통 버튼 스타일 */
         .btn {
             width: 100%;
             padding: 16px;
@@ -147,17 +160,27 @@
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
+            box-sizing: border-box;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
         }
-        
         .btn:active { transform: scale(0.98); }
+
+        .btn-youtube {
+            background-color: var(--youtube-bg);
+            color: var(--youtube-text);
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 0, 0, 0.1);
+        }
+        .btn-youtube:hover { background-color: var(--youtube-hover); }
 
         .btn-check {
             background-color: #e8f0fe;
             color: var(--primary-color);
-            margin-bottom: 24px;
+            margin-bottom: 12px;
             border: 1px solid rgba(26,115,232,0.1);
         }
-        
         .btn-check:hover { background-color: #d2e3fc; }
 
         .btn-submit {
@@ -165,9 +188,7 @@
             color: white;
             box-shadow: 0 4px 6px rgba(26,115,232,0.2);
         }
-
         .btn-submit:hover { background-color: var(--primary-hover); }
-
         .btn-submit:disabled {
             background-color: #dadce0;
             color: #80868b;
@@ -177,23 +198,110 @@
 
         .status-msg {
             font-size: 14px;
-            margin-top: 10px;
             text-align: center;
-            display: none;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 6px;
+            font-weight: 500;
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 0;
         }
-        .status-msg.success { background-color: #e6f4ea; color: var(--success-color); display: block; }
-        .status-msg.error { background-color: #fce8e6; color: var(--error-color); display: block; }
+        .status-msg.info { background-color: var(--info-bg); color: var(--info-color); border: 1px solid #eee; }
+        .status-msg.success { background-color: #e6f4ea; color: var(--success-color); border: 1px solid #ceead6; }
+        .status-msg.error { background-color: #fce8e6; color: var(--error-color); border: 1px solid #fad2cf; }
 
         .loading { opacity: 0.6; pointer-events: none; }
+
+        /* ======== 모달(팝업) 스타일 ======== */
+        .modal-overlay {
+            display: none; /* 기본 숨김 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            max-height: 80vh; /* 화면 높이의 80%까지만 */
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto; /* 내용 길면 스크롤 */
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap; /* 줄바꿈 유지 */
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-size: 15px;
+        }
+
+        .modal-btn.cancel {
+            background-color: #f1f3f4;
+            color: #5f6368;
+        }
+        
+        .modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>참가 완료 확인</h1>
+    <h1>이벤트 참가 완료 확인</h1>
     <p class="subtitle">DEEPCO 2026 대한민국교육박람회</p>
 
     <form id="eventForm">
@@ -204,7 +312,7 @@
 
         <div class="form-group">
             <label for="contact">연락처</label>
-            <input type="tel" id="contact" placeholder="010-1234-5678" required>
+            <input type="tel" id="contact" placeholder="010-1234-5678" maxlength="13" required>
         </div>
 
         <div class="form-group">
@@ -219,26 +327,50 @@
 
         <div class="form-group">
             <label for="jobTitle">직책</label>
-            <input type="text" id="jobTitle" placeholder="예: 팀장, 교사" required>
+            <input type="text" id="jobTitle" placeholder="팀장, 교사, 강사, 주무관 등" required>
         </div>
 
-        <div class="privacy-group">
-            <div class="checkbox-wrapper">
-                <input type="checkbox" id="marketing" required>
-                <label for="marketing"><span class="required-mark">(필수)</span>개인정보 수집 및 이용 동의</label>
+        <div class="agreement-section">
+            <div class="checkbox-row" id="rowPrivacy">
+                <input type="checkbox" id="privacyConsent" readonly> <span><span class="required-mark">(필수)</span>개인정보 수집 및 이용 동의</span>
+                <span class="view-btn">내용보기 ></span>
             </div>
-            <div class="privacy-desc">
-                스타벅스 기프티콘 발송 및 이벤트 참여 확인을 위해 연락처를 수집합니다. 동의하지 않으실 경우 이벤트 참여가 불가능합니다.
+
+            <div class="checkbox-row" id="rowMarketing">
+                <input type="checkbox" id="marketingConsent" readonly>
+                <span><span class="optional-mark">(선택)</span>마케팅 정보 수신 동의</span>
+                <span class="view-btn">내용보기 ></span>
             </div>
         </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 24px 0;">
+        
+        <a href="https://www.youtube.com/@DEEPCO_?sub_confirmation=1" target="_blank" class="btn btn-youtube">
+            🔴 딥코 유튜브 구독하러 가기
+        </a>
 
         <button type="button" id="checkBtn" class="btn btn-check">📺 유튜브 구독 확인 (관리자 확인)</button>
-        <div id="checkMsg" class="status-msg"></div>
+        
+        <div id="checkMsg" class="status-msg info">
+            ℹ️ 유튜브 구독 확인 후 제출이 가능합니다.
+        </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 24px 0;">
 
-        <button type="submit" id="submitBtn" class="btn btn-submit" disabled>참여 완료 제출</button>
+        <button type="submit" id="submitBtn" class="btn btn-submit" disabled>제출 하기</button>
     </form>
+</div>
+
+<div id="modalOverlay" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header" id="modalTitle">약관 제목</div>
+        <div class="modal-body" id="modalContent">
+            </div>
+        <div class="modal-footer">
+            <button class="modal-btn cancel" id="btnDisagree">미동의</button>
+            <button class="modal-btn confirm" id="btnAgree">동의</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -251,18 +383,120 @@
     const checkBtn = document.getElementById('checkBtn');
     const submitBtn = document.getElementById('submitBtn');
     const checkMsg = document.getElementById('checkMsg');
+    const contactInput = document.getElementById('contact');
     
-    // 필수 입력 필드 ID 목록
+    // 모달 관련 요소
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const btnAgree = document.getElementById('btnAgree');
+    const btnDisagree = document.getElementById('btnDisagree');
+
+    const privacyChk = document.getElementById('privacyConsent');
+    const marketingChk = document.getElementById('marketingConsent');
+
+    let currentTargetCheckbox = null; // 현재 어떤 체크박스를 누르고 있는지 추적
+
     const REQUIRED_FIELDS = ['name', 'contact', 'email', 'affiliation', 'jobTitle'];
-    
     let verifiedDay = "";
 
-    // 유효성 검사 헬퍼 함수
+    // 약관 내용 데이터
+    const TERMS_TEXT = {
+        privacy: `<strong>㈜유비온은 이벤트 참여 확인 및 당첨자 기프티콘 발송을 위해 아래와 같이 개인정보를 수집·이용합니다.</strong>
+
+1. 수집 항목: 이름, 연락처, 이메일, 소속기관(소속, 직책)
+2. 수집·이용 목적:
+  - 이벤트 참여자 확인
+  - 기프티콘 등 경품 발송
+3. 보유 및 이용 기간: 기프티콘 발송 완료 후 3개월 내 파기
+4. 개인정보 제3자 제공에 대한 동의(목적/업체명): 기프티콘 발송 / 기프티레터 ㈜
+
+※ 개인정보 수집·이용에 동의하지 않을 경우, 이벤트 참여 및 기프티콘 제공이 제한될 수 있습니다.`,
+        
+        marketing: `<strong>㈜유비온은 아래와 같이 마케팅 정보 제공을 위해 개인정보를 수집·이용합니다.</strong>
+
+1. 수집 항목: 이름, 연락처, 이메일, 소속기관(소속, 직책)
+2. 수집·이용 목적:
+  - 딥코(DEEPCO) 교육 서비스, 커리큘럼 안내
+3. 마케팅 정보 수신 방법: 메일, 문자(SMS), 카카오톡 알림
+4. 보유 및 이용 기간:
+  - 동의 철회 시까지
+
+※ 마케팅 정보 수신 동의는 언제든지 철회(sales@ubion.co.kr)할 수 있습니다.`
+    };
+
+    // [팝업 로직 1] 체크박스/행 클릭 시 팝업 열기
+    function openModal(type) {
+        if (type === 'privacy') {
+            modalTitle.innerText = "(필수) 개인정보 수집·이용 동의";
+            modalContent.innerHTML = TERMS_TEXT.privacy.replace(/\n/g, '<br>'); // 줄바꿈 처리
+            currentTargetCheckbox = privacyChk;
+        } else {
+            modalTitle.innerText = "(선택) 마케팅 정보 수신 동의";
+            modalContent.innerHTML = TERMS_TEXT.marketing.replace(/\n/g, '<br>');
+            currentTargetCheckbox = marketingChk;
+        }
+        
+        // 팝업 열기
+        modalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 배경 스크롤 막기
+    }
+
+    // [팝업 로직 2] 클릭 이벤트 연결
+    // 체크박스를 직접 눌렀을 때 체크되는걸 막고 팝업을 띄움
+    document.getElementById('rowPrivacy').addEventListener('click', (e) => {
+        e.preventDefault(); 
+        openModal('privacy');
+    });
+
+    document.getElementById('rowMarketing').addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal('marketing');
+    });
+
+    // [팝업 로직 3] 동의/미동의 버튼 처리
+    function closeModal() {
+        modalOverlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        currentTargetCheckbox = null;
+    }
+
+    btnAgree.addEventListener('click', () => {
+        if(currentTargetCheckbox) {
+            currentTargetCheckbox.checked = true;
+        }
+        closeModal();
+    });
+
+    btnDisagree.addEventListener('click', () => {
+        if(currentTargetCheckbox) {
+            currentTargetCheckbox.checked = false;
+        }
+        closeModal();
+    });
+
+    // 배경 클릭 시 닫기 (선택 사항)
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+
+    
+    // --- 기존 기능 유지 ---
+
+    contactInput.addEventListener('input', function(e) {
+        let val = e.target.value.replace(/[^0-9]/g, '');
+        let result = '';
+        if (val.length < 4) { result = val; }
+        else if (val.length < 7) { result = val.substr(0, 3) + '-' + val.substr(3); }
+        else if (val.length < 11) { result = val.substr(0, 3) + '-' + val.substr(3, 3) + '-' + val.substr(6); }
+        else { result = val.substr(0, 3) + '-' + val.substr(3, 4) + '-' + val.substr(7); }
+        e.target.value = result;
+    });
+
     function validateForm(checkMarketing = false) {
         let isValid = true;
         let firstErrorField = null;
 
-        // 1. 텍스트 필드 검사
         REQUIRED_FIELDS.forEach(id => {
             const el = document.getElementById(id);
             if (!el.value.trim()) {
@@ -274,37 +508,50 @@
             }
         });
 
-        // 2. 체크박스 검사
+        if (contactInput.value.length < 12) { 
+            contactInput.classList.add('input-error');
+            isValid = false;
+            if (!firstErrorField) firstErrorField = contactInput;
+        }
+
+        // [수정됨] 체크박스 검사는 이제 "필수(개인정보)"만 확인
         if (checkMarketing) {
-            const chk = document.getElementById('marketing');
-            if (!chk.checked) {
-                alert("개인정보 수집 및 이용에 동의해주세요.");
-                chk.focus();
+            if (!privacyChk.checked) {
+                alert("이벤트 참여를 위해 '(필수) 개인정보 수집 및 이용'에 동의해주세요.");
+                // 팝업을 다시 띄워주는 센스
+                openModal('privacy');
                 return false;
             }
         }
 
         if (!isValid) {
-            alert("모든 필수 항목을 입력해주세요.");
+            alert("모든 필수 항목을 정확히 입력해주세요.");
             if (firstErrorField) firstErrorField.focus();
         }
 
         return isValid;
     }
 
-    // 1. 유튜브 구독 확인 및 관리자 인증 (연락처만 있으면 진행)
     checkBtn.addEventListener('click', async () => {
-        const contactEl = document.getElementById('contact');
-        const contact = contactEl.value.trim();
+        const contactVal = contactInput.value.trim();
+        const emailVal = document.getElementById('email').value.trim();
 
-        // 중복 체크를 위해 연락처는 필수입니다.
-        if (!contact || contact.length < 10) {
-            alert("중복 확인을 위해 '연락처'를 먼저 입력해주세요.");
-            contactEl.classList.add('input-error');
-            contactEl.focus();
+        if (!contactVal || contactVal.length < 12) {
+            alert("중복 확인을 위해 '연락처'를 올바르게 입력해주세요.");
+            contactInput.classList.add('input-error');
+            contactInput.focus();
             return;
         } else {
-            contactEl.classList.remove('input-error');
+            contactInput.classList.remove('input-error');
+        }
+
+        if (!emailVal) {
+            alert("중복 확인을 위해 '이메일'을 입력해주세요.");
+            document.getElementById('email').classList.add('input-error');
+            document.getElementById('email').focus();
+            return;
+        } else {
+            document.getElementById('email').classList.remove('input-error');
         }
 
         const adminCode = prompt("관리자 코드를 입력하세요.\n(1일차, 2일차, 3일차 코드가 다릅니다)");
@@ -319,7 +566,8 @@
                 body: JSON.stringify({
                     action: "check_subscription",
                     adminCode: adminCode,
-                    contact: contact
+                    contact: contactVal,
+                    email: emailVal
                 })
             });
 
@@ -330,8 +578,8 @@
                 checkMsg.className = "status-msg success";
                 checkMsg.innerText = "✅ " + result.message;
                 
-                submitBtn.disabled = false; // 제출 버튼 활성화
-                checkBtn.disabled = true;   // 중복 누름 방지
+                submitBtn.disabled = false;
+                checkBtn.disabled = true;
                 checkBtn.innerText = "인증 완료 (" + verifiedDay + ")";
             } else {
                 checkMsg.className = "status-msg error";
@@ -346,18 +594,15 @@
         }
     });
 
-    // 2. 최종 폼 제출 (여기서 모든 검사 진행)
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // [검사 1] 관리자 인증 여부 (유튜브 구독 확인)
         if (!verifiedDay) {
             alert("아직 관리자 확인(유튜브 구독 확인)이 완료되지 않았습니다.\n버튼을 눌러 인증을 진행해주세요.");
             checkBtn.focus();
             return;
         }
 
-        // [검사 2] 설문 내용 전부 기입했는지? + 동의했는지?
         if (!validateForm(true)) return;
 
         if(!confirm(verifiedDay + " 참여자로 제출하시겠습니까?")) return;
@@ -367,11 +612,11 @@
         const formData = {
             action: "submit_form",
             name: document.getElementById('name').value,
-            contact: document.getElementById('contact').value,
+            contact: contactInput.value,
             email: document.getElementById('email').value,
             affiliation: document.getElementById('affiliation').value,
             jobTitle: document.getElementById('jobTitle').value,
-            marketing: true,
+            marketing: marketingChk.checked, // [수정] 마케팅 동의 여부 true/false 전송
             participationDay: verifiedDay
         };
 
@@ -397,7 +642,6 @@
         }
     });
 
-    // 입력창에 타이핑 시작하면 빨간 테두리 제거 UX
     REQUIRED_FIELDS.forEach(id => {
         document.getElementById(id).addEventListener('input', function() {
             if(this.value.trim()) this.classList.remove('input-error');
@@ -412,7 +656,7 @@
         } else {
             document.body.classList.remove('loading');
             if (!checkBtn.disabled) checkBtn.innerText = "📺 유튜브 구독 확인 (관리자 확인)";
-            if (!submitBtn.disabled) submitBtn.innerText = "참여 완료 제출";
+            if (!submitBtn.disabled) submitBtn.innerText = "제출 하기";
         }
     }
 </script>
