@@ -307,16 +307,35 @@
         });
     });
 
-    // 스캔 성공 시
+    // QR 스캔 성공 시 실행되는 함수 (수정됨)
     function onScanSuccess(decodedText, decodedResult) {
-        // 삑 소리 대신 시각적 피드백 (진동은 브라우저 지원 시)
+        // 1. 진동 피드백
         if (navigator.vibrate) navigator.vibrate(200);
         
-        adminCodeInput.value = decodedText; // 입력창에 코드 채우기
-        stopCamera(); // 카메라 끄기
+        // 2. [디버깅용] 무엇이 읽혔는지 눈으로 먼저 확인 (이 부분이 중요!)
+        // 여기서 http://... 같은 URL이 보이면 QR을 잘못 만드신 겁니다.
+        alert("스캔 성공!\n읽힌 코드: " + decodedText);
         
-        // 바로 확인 로직 실행 (편의성)
-        btnAuthConfirm.click();
+        // 3. 입력창에 값 채우기
+        adminCodeInput.value = decodedText; 
+        
+        // 4. 카메라 끄기 (Promise 처리)
+        if (html5QrCode) {
+            html5QrCode.stop().then(() => {
+                html5QrCode.clear();
+                document.getElementById('reader').style.display = 'none';
+                startScanBtn.style.display = 'flex';
+                html5QrCode = null;
+
+                // 5. 카메라가 완전히 꺼진 뒤 서버로 전송 시도
+                // (값이 비어있지 않을 때만)
+                if(adminCodeInput.value.trim()) {
+                    btnAuthConfirm.click();
+                }
+            }).catch(err => {
+                console.log("카메라 종료 중 오류", err);
+            });
+        }
     }
 
     function onScanFailure(error) {
