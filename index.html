@@ -49,24 +49,15 @@
             width: 100%;
             max-width: 420px;
             box-sizing: border-box;
-            position: relative; /* 톱니바퀴 절대 위치를 위해 필수 */
+            position: relative;
         }
 
-        /* [신규] 관리자 톱니바퀴 버튼 */
         .admin-gear {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 20px;
-            color: #dadce0;
-            cursor: pointer;
-            transition: color 0.3s, transform 0.3s;
-            z-index: 10;
+            position: absolute; top: 20px; right: 20px;
+            font-size: 20px; color: #dadce0; cursor: pointer;
+            transition: color 0.3s, transform 0.3s; z-index: 10;
         }
-        .admin-gear:hover {
-            color: var(--sub-text-color);
-            transform: rotate(90deg);
-        }
+        .admin-gear:hover { color: var(--sub-text-color); transform: rotate(90deg); }
 
         h1 { text-align: center; color: var(--primary-color); margin: 0 0 8px 0; font-size: 22px; font-weight: 700; }
         p.subtitle { text-align: center; color: var(--sub-text-color); margin: 0 0 30px 0; font-size: 14px; }
@@ -81,13 +72,47 @@
         input.input-error { border-color: var(--error-color); background-color: #fce8e6; }
 
         .agreement-section { margin: 20px 0; border-top: 1px solid #eee; padding-top: 20px; }
-        .checkbox-row { display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; padding: 8px; border-radius: 6px; }
+        
+        /* [수정됨] 체크박스 행 스타일 개선 */
+        .checkbox-row { 
+            display: flex; 
+            align-items: flex-start; /* 텍스트가 길어도 상단 정렬 */
+            margin-bottom: 12px; 
+            cursor: pointer; 
+            padding: 8px; 
+            border-radius: 6px; 
+        }
         .checkbox-row:hover { background-color: #f8f9fa; }
-        .checkbox-row input { width: 20px; height: 20px; margin-right: 12px; flex-shrink: 0; }
-        .checkbox-row span { font-size: 15px; line-height: 1.4; flex-grow: 1; }
+        
+        .checkbox-row input { 
+            width: 20px; 
+            height: 20px; 
+            margin-right: 10px; 
+            flex-shrink: 0; 
+            margin-top: 2px; /* 텍스트 첫 줄과 높이 맞춤 */
+        }
+        
+        /* [신규] 메인 텍스트 전용 클래스 */
+        .label-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-right: 8px; /* 버튼과의 최소 간격 */
+        }
+
         .required-mark { color: var(--error-color); font-weight: 700; margin-right: 4px; }
         .optional-mark { color: var(--sub-text-color); font-weight: 700; margin-right: 4px; }
-        .view-btn { font-size: 12px; color: var(--sub-text-color); text-decoration: underline; margin-left: 8px; white-space: nowrap; }
+        
+        /* [수정됨] 내용보기 버튼: 우측 끝 정렬 및 사이즈 축소 */
+        .view-btn {
+            font-size: 11px;
+            color: #999;
+            text-decoration: underline;
+            white-space: nowrap;
+            margin-left: auto; /* 무조건 맨 오른쪽으로 밀어버림 */
+            margin-top: 4px; /* 시각적 균형 */
+            flex-shrink: 0;
+        }
 
         .btn { width: 100%; padding: 16px; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; box-sizing: border-box; display: inline-block; }
         .btn:active { transform: scale(0.98); }
@@ -102,16 +127,8 @@
         .status-msg.success { background-color: #e6f4ea; color: var(--success-color); border: 1px solid #ceead6; }
         .status-msg.error { background-color: #fce8e6; color: var(--error-color); border: 1px solid #fad2cf; }
 
-        /* [신규] 풋터 스타일 */
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 11px;
-            color: #9aa0a6;
-            letter-spacing: 0.5px;
-        }
+        .footer { margin-top: 30px; text-align: center; font-size: 11px; color: #9aa0a6; letter-spacing: 0.5px; }
 
-        /* 모달 스타일 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 1000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
         .modal-box { background: white; width: 100%; max-width: 480px; max-height: 90vh; border-radius: 12px; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: slideUp 0.3s ease-out; overflow: hidden; }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -123,7 +140,6 @@
         .modal-btn.cancel { background-color: #f1f3f4; color: #5f6368; }
         .modal-btn.confirm { background-color: var(--primary-color); color: white; }
 
-        /* [신규] 대시보드 테이블 스타일 */
         .stats-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .stats-table th, .stats-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
         .stats-table th { color: #5f6368; font-weight: 500; font-size: 13px; }
@@ -131,17 +147,11 @@
         .total-row td { color: var(--primary-color); font-size: 18px; border-bottom: none; }
         .cost-box { margin-top: 20px; background: #f1f8ff; padding: 15px; border-radius: 8px; text-align: center; }
         .cost-label { font-size: 13px; color: #5f6368; margin-bottom: 5px; }
-        .cost-value { font-size: 20px; font-weight: 900; color: #d93025; } /* 금액은 빨간색 강조 */
+        .cost-value { font-size: 20px; font-weight: 900; color: #d93025; }
 
         #reader { width: 100%; border-radius: 8px; overflow: hidden; margin-top: 10px; display: none; }
 
-        /* 로딩 및 결과 화면 */
-        #fullScreenLoader {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: white; z-index: 2000; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center; padding: 40px; box-sizing: border-box;
-        }
-
+        #fullScreenLoader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 2000; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px; box-sizing: border-box; }
         .loader-spinner-box { display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -150,30 +160,18 @@
 
         .success-content-box { display: none; flex-direction: column; align-items: center; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .success-icon { font-size: 60px; margin-bottom: 20px; }
         .success-title { font-size: 24px; font-weight: 700; color: var(--success-color); margin-bottom: 10px; }
         .success-desc { font-size: 16px; color: var(--text-color); margin-bottom: 30px; line-height: 1.6; }
         
-        .booth-promo-box {
-            background-color: #f1f8ff; padding: 24px 20px; border-radius: 12px; width: 100%; max-width: 340px;
-            margin-bottom: 20px; border: 1px solid #d2e3fc;
-        }
+        .booth-promo-box { background-color: #f1f8ff; padding: 24px 20px; border-radius: 12px; width: 100%; max-width: 340px; margin-bottom: 20px; border: 1px solid #d2e3fc; }
         .promo-text { font-size: 15px; color: #333; margin-bottom: 16px; font-weight: 500; line-height: 1.5; }
         .promo-text strong { color: var(--primary-color); }
         .btn-booth { background-color: var(--primary-color); color: white; box-shadow: 0 4px 10px rgba(26,115,232,0.3); font-size: 15px; }
         .btn-booth:hover { background-color: var(--primary-hover); }
 
-        /* 인트로 애니메이션 스타일 */
-        #introOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--intro-bg); z-index: 9999;
-            display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px; box-sizing: border-box;
-        }
-        .intro-line {
-            font-family: 'Montserrat', sans-serif; color: var(--intro-text);
-            text-align: center; display: flex; justify-content: center; white-space: nowrap;
-        }
+        #introOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--intro-bg); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        .intro-line { font-family: 'Montserrat', sans-serif; color: var(--intro-text); text-align: center; display: flex; justify-content: center; white-space: nowrap; }
         #introLine1 { font-size: 5vw; font-weight: 700; margin-bottom: 5px; }
         @media (min-width: 800px) { #introLine1 { font-size: 40px; } }
         #introLine2 { font-size: 13.5vw; font-weight: 900; line-height: 1; }
@@ -223,12 +221,12 @@
         <div class="agreement-section">
             <div class="checkbox-row" id="rowPrivacy">
                 <input type="checkbox" id="privacyConsent" readonly>
-                <span><span class="required-mark">(필수)</span>개인정보 수집 및 이용 동의</span>
+                <span class="label-text"><span class="required-mark">(필수)</span>개인정보 수집 및 이용 동의</span>
                 <span class="view-btn">내용보기 ></span>
             </div>
             <div class="checkbox-row" id="rowMarketing">
                 <input type="checkbox" id="marketingConsent" readonly>
-                <span><span class="optional-mark">(선택)</span>마케팅 정보 수신 동의</span>
+                <span class="label-text"><span class="optional-mark">(선택)</span>마케팅 정보 수신 동의</span>
                 <span class="view-btn">내용보기 ></span>
             </div>
         </div>
@@ -334,7 +332,7 @@
     const BOOTH_TOUR_URL = "https://kkujae.github.io/deepco/deepco_intro.html"; 
     // ==========================================
 
-    // 인트로 애니메이션
+    // 인트로
     const introOverlay = document.getElementById('introOverlay');
     const introLine1 = document.getElementById('introLine1');
     const introLine2 = document.getElementById('introLine2');
@@ -359,8 +357,7 @@
         document.body.style.overflow = 'auto'; 
     }, totalTime);
 
-
-    // 요소 참조
+    // 요소
     const form = document.getElementById('eventForm');
     const checkBtn = document.getElementById('checkBtn');
     const submitBtn = document.getElementById('submitBtn');
@@ -378,7 +375,6 @@
     const btnAuthConfirm = document.getElementById('btnAuthConfirm');
     const startScanBtn = document.getElementById('startScanBtn');
     
-    // [신규] 대시보드 관련 요소
     const adminGearBtn = document.getElementById('adminGearBtn');
     const modalDashboard = document.getElementById('modalDashboard');
     const dashboardContent = document.getElementById('dashboardContent');
@@ -404,7 +400,6 @@
 
     goBoothBtn.addEventListener('click', () => { window.location.href = BOOTH_TOUR_URL; });
 
-    // 약관 모달
     function openTermsModal(type) {
         if (type === 'privacy') {
             termsTitle.innerText = "(필수) 개인정보 수집·이용 동의";
@@ -429,32 +424,22 @@
     function closeAuthModal() { closeModal(modalAuth); }
     function closeDashboardModal() { closeModal(modalDashboard); }
 
-    // [신규] 관리자 대시보드 로직
+    // 대시보드
     adminGearBtn.addEventListener('click', async () => {
         const password = prompt("관리자 비밀번호를 입력하세요:");
         if (!password) return;
-
-        // 모달 열고 로딩 표시
         modalDashboard.style.display = 'flex';
         dashboardContent.innerHTML = '<div style="text-align:center; padding:20px; color:#5f6368;">데이터 불러오는 중...</div>';
-
         try {
             const response = await fetch(GAS_API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "get_stats",
-                    password: password
-                })
+                method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ action: "get_stats", password: password })
             });
-
             const result = await response.json();
-
             if (result.status === "success") {
                 const data = result.data;
                 const totalCost = data.total * 3995;
                 const formattedCost = totalCost.toLocaleString();
-
                 dashboardContent.innerHTML = `
                     <table class="stats-table">
                         <tr><th>1일차 참여</th><td>${data["1일차"]}명</td></tr>
@@ -468,18 +453,11 @@
                         <div style="font-size:11px; color:#999; margin-top:4px;">(인당 3,995원 기준)</div>
                     </div>
                 `;
-            } else {
-                alert("접근 거부: " + result.message);
-                closeDashboardModal();
-            }
-        } catch (error) {
-            alert("통신 오류 발생: " + error);
-            closeDashboardModal();
-        }
+            } else { alert("접근 거부: " + result.message); closeDashboardModal(); }
+        } catch (error) { alert("통신 오류 발생: " + error); closeDashboardModal(); }
     });
 
-
-    // 인증 (QR/코드)
+    // 인증
     checkBtn.addEventListener('click', () => {
         const contactVal = contactInput.value.trim();
         const emailVal = document.getElementById('email').value.trim();
@@ -580,26 +558,19 @@
         let firstErrorField = null;
         REQUIRED_FIELDS.forEach(id => {
             const el = document.getElementById(id);
-            if (!el.value.trim()) {
-                el.classList.add('input-error'); isValid = false;
-                if (!firstErrorField) firstErrorField = el;
-            } else { el.classList.remove('input-error'); }
+            if (!el.value.trim()) { el.classList.add('input-error'); isValid = false; if (!firstErrorField) firstErrorField = el; }
+            else { el.classList.remove('input-error'); }
         });
         if (contactInput.value.length < 12) { 
-            contactInput.classList.add('input-error'); isValid = false;
-            if (!firstErrorField) firstErrorField = contactInput;
+            contactInput.classList.add('input-error'); isValid = false; if (!firstErrorField) firstErrorField = contactInput;
         }
         if (checkMarketing) {
             if (!privacyChk.checked) {
                 alert("이벤트 참여를 위해 '(필수) 개인정보 수집 및 이용'에 동의해주세요.");
-                openTermsModal('privacy');
-                return false;
+                openTermsModal('privacy'); return false;
             }
         }
-        if (!isValid) {
-            alert("모든 필수 항목을 정확히 입력해주세요.");
-            if (firstErrorField) firstErrorField.focus();
-        }
+        if (!isValid) { alert("모든 필수 항목을 정확히 입력해주세요."); if (firstErrorField) firstErrorField.focus(); }
         return isValid;
     }
 
@@ -626,8 +597,7 @@
 
         try {
             const response = await fetch(GAS_API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify(formData)
             });
             const result = await response.json();
@@ -638,24 +608,16 @@
                 fullScreenLoader.style.display = 'none';
                 alert("오류 발생: " + result.message);
             }
-        } catch (error) {
-            fullScreenLoader.style.display = 'none';
-            alert("제출 중 오류가 발생했습니다.");
-        }
+        } catch (error) { fullScreenLoader.style.display = 'none'; alert("제출 중 오류가 발생했습니다."); }
     });
 
     REQUIRED_FIELDS.forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            if(this.value.trim()) this.classList.remove('input-error');
-        });
+        document.getElementById(id).addEventListener('input', function() { if(this.value.trim()) this.classList.remove('input-error'); });
     });
 
     function setLoading(isLoading) {
-        if (isLoading) {
-            if (!checkBtn.disabled) checkBtn.innerText = "처리 중...";
-        } else {
-            if (!checkBtn.disabled) checkBtn.innerText = "📺 유튜브 구독 확인 (관리자 확인)";
-        }
+        if (isLoading) { if (!checkBtn.disabled) checkBtn.innerText = "처리 중..."; }
+        else { if (!checkBtn.disabled) checkBtn.innerText = "📺 유튜브 구독 확인 (관리자 확인)"; }
     }
 </script>
 
